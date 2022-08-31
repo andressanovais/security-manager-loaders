@@ -48,16 +48,8 @@ resource "aws_iam_role_policy_attachment" "lambda_role_policy" {
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
 
-resource "aws_cloudwatch_event_rule" "every_six_hours" {
-  name                = "every-six-hours"
-  description         = "Fires every six hours"
-  schedule_expression = "rate(6 hours)"
-}
-
-resource "aws_cloudwatch_event_target" "rule_lambda_trigger" {
-  rule      = aws_cloudwatch_event_rule.every_six_hours.name
-  target_id = var.lambda_name
-  arn       = aws_lambda_function.function.arn
+output "function_arn" {
+  value = aws_lambda_function.function.arn
 }
 
 # resource security_group {

@@ -52,3 +52,15 @@ module "complete_loader_lambda" {
 #   image_uri        = "uri:falsa:ecr"
 #   policy_file_path = "./iam_documents/summarized_loader_iam_policy.json"
 # }
+
+resource "aws_cloudwatch_event_rule" "every_six_hours" {
+  name                = "every-six-hours"
+  description         = "Fires every six hours"
+  schedule_expression = "rate(6 hours)"
+}
+
+resource "aws_cloudwatch_event_target" "rule_lambda_trigger" {
+  rule      = aws_cloudwatch_event_rule.every_six_hours.name
+  target_id = "complete_vulnerabilities_loader"
+  arn       = module.complete_loader_lambda.function_arn
+}
