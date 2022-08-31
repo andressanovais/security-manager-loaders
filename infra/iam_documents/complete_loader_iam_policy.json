@@ -1,0 +1,32 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        "Resource": "arn:aws:logs:*:*:*",
+        "Effect": "Allow"
+      },
+      {
+        "Action": [
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem"
+        ],
+        "Resource": "arn:aws:dynamodb:sa-east-1:*:table/NistVulnerabilities",
+        "Effect": "Allow"
+      },
+      {
+        "Sid": "LambdaVpcPermissions",
+        "Action": [
+          "ec2:CreateNetworkInterface",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DeleteNetworkInterface"
+        ],
+        "Resource": "*",
+        "Effect": "Allow"
+      }
+    ]
+  }
