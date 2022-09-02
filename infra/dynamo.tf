@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "table" {
-  name           = var.table_name
+  name           = var.dynamo_table_name
   billing_mode   = "PROVISIONED"
   hash_key       = var.dynamo_hash_key
   range_key      = var.dynamo_range_key
