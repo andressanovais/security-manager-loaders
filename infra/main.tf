@@ -26,22 +26,3 @@ module "complete_table_dynamodb" {
   rcu           = var.dynamo_rcu
   wcu           = var.dynamo_wcu
 }
-
-# module "summarized_loader_lambda" {
-#   source           = "./lambda"
-#   lambda_name      = "summarized_vulnerabilities_loader"
-#   image_uri        = "uri:falsa:ecr"
-#   policy_file_path = "./iam_documents/summarized_loader_iam_policy.json"
-# }
-
-resource "aws_cloudwatch_event_rule" "one_time_trigger" {
-  name                = "one-time"
-  description         = "Fires one time at specific hour"
-  schedule_expression = "cron(16 01 31 08 ? 2022)" # cron(Minutes Hours Day-of-month Month Day-of-week Year)
-}
-
-resource "aws_cloudwatch_event_target" "rule_lambda_trigger" {
-  rule      = aws_cloudwatch_event_rule.one_time_trigger.name
-  target_id = "complete_vulnerabilities_loader"
-  arn       = module.complete_loader_lambda.function_arn
-}

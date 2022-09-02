@@ -8,7 +8,7 @@ variable "lambda_runtime" {
 }
 
 variable "lambda_timeout" {
-  type    = number
+  type = number
 }
 
 variable "dynamo_table_name" {

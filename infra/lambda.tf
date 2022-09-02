@@ -1,10 +1,10 @@
 resource "aws_lambda_function" "function" {
   function_name = var.lambda_name
   # image_uri     = var.image_uri
-  handler  = "lambda_handler.handler"
-  role     = aws_iam_role.lambda_role.arn
-  runtime  = var.lambda_runtime
-  timeout  = var.lambda_timeout
+  handler = "lambda_handler.handler"
+  role    = aws_iam_role.lambda_role.arn
+  runtime = var.lambda_runtime
+  timeout = var.lambda_timeout
 
   depends_on = [
     aws_cloudwatch_log_group.log_group,
@@ -55,6 +55,18 @@ resource "aws_cloudwatch_event_rule" "every_six_hours" {
 
 resource "aws_cloudwatch_event_target" "rule_lambda_trigger" {
   rule      = aws_cloudwatch_event_rule.every_six_hours.name
+  target_id = var.lambda_name
+  arn       = aws_lambda_function.function.arn
+}
+
+resource "aws_cloudwatch_event_rule" "one_time_trigger" {
+  name                = "one-time"
+  description         = "Fires one time at specific hour"
+  schedule_expression = "cron(16 01 31 08 ? 2022)" # cron(Minutes Hours Day-of-month Month Day-of-week Year)
+}
+
+resource "aws_cloudwatch_event_target" "rule_lambda_trigger" {
+  rule      = aws_cloudwatch_event_rule.one_time_trigger.name
   target_id = var.lambda_name
   arn       = aws_lambda_function.function.arn
 }
