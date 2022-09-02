@@ -1,5 +1,5 @@
 import time
-import json
+import orjson
 
 import boto3
 import requests
@@ -8,6 +8,7 @@ from requests import HTTPError
 from src.infrastructure.logger import logger
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
+RESULTS_PER_PAGE = 2000
 endpoint_url = 'http://localhost:8000'
 dynamo_table = boto3 \
     .resource('dynamodb', endpoint_url=endpoint_url) \
@@ -63,7 +64,7 @@ def save_on_database(result):
                     Item={
                         'CveId': vulnerability['cve']['CVE_data_meta']['ID'],
                         'Severity': get_severity(vulnerability),
-                        'Object': json.dumps(vulnerability),
+                        'Object': orjson.loads(orjson.dumps(vulnerability))
                     })
     logger.info('Saving finished')
 
@@ -74,4 +75,4 @@ def get_severity(vulnerability):
     if metric_v3 is not None:
         return metric_v3['cvssV3']['baseSeverity']
     else:
-        return 'None'
+        return 'NONE'
