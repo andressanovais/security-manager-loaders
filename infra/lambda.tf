@@ -10,6 +10,12 @@ resource "aws_lambda_function" "function" {
     aws_cloudwatch_log_group.log_group,
     aws_iam_role_policy_attachment.lambda_role_policy
   ]
+
+  # vpc_config {
+  # TODO
+  #   subnet_ids         = [aws_subnet.subnet.id]
+  #   security_group_ids = [aws_security_group.sg_for_lambda.id]
+  # }
 }
 
 resource "aws_cloudwatch_log_group" "log_group" {
@@ -59,6 +65,6 @@ resource "aws_cloudwatch_event_target" "rule_lambda_trigger" {
   arn       = aws_lambda_function.function.arn
 }
 
-# resource security_group {
+# resource security_group sg_for_lambda {
 # TODO
 # }
