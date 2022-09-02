@@ -17,12 +17,3 @@ provider "aws" {
     eventbridge = "http://localhost:4566"
   }
 }
-
-module "complete_table_dynamodb" {
-  source        = "./dynamodb"
-  table_name    = var.dynamo_table_name
-  hash_key      = var.dynamo_hash_key
-  hash_key_type = var.dynamo_hash_key_type
-  rcu           = var.dynamo_rcu
-  wcu           = var.dynamo_wcu
-}
