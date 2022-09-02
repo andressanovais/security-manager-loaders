@@ -23,11 +23,27 @@ variable "dynamo_hash_key_type" {
   type = string
 }
 
+variable "dynamo_range_key" {
+  type = string
+}
+
+variable "dynamo_range_key_type" {
+  type = string
+}
+
 variable "dynamo_rcu" {
   type = number
 }
 
 variable "dynamo_wcu" {
+  type = number
+}
+
+variable "dynamo_gsi_rcu" {
+  type = number
+}
+
+variable "dynamo_gsi_wcu" {
   type = number
 }
 
