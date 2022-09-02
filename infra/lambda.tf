@@ -55,7 +55,7 @@ resource "aws_cloudwatch_event_rule" "every_six_hours" {
 
 resource "aws_cloudwatch_event_target" "rule_lambda_trigger" {
   rule      = aws_cloudwatch_event_rule.every_six_hours.name
-  target_id = "complete_vulnerabilities_loader"
+  target_id = var.lambda_name
   arn       = aws_lambda_function.function.arn
 }
 
